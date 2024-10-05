@@ -2,6 +2,7 @@ from enum import Enum
 
 from fastapi import Body, FastAPI, Query, Path
 from pydantic import BaseModel, Field
+from typing import Annotated
 
 app = FastAPI()
 
@@ -196,7 +197,12 @@ class Item(BaseModel):
     tax: float | None = None
 
 
+# @app.put("/items/{item_id}")
+# async def update_item(item_id: int, item: Item= Body(..., embed=True)):
+#     results = {"item_id": item_id, "item": item}
+#     return results
+
 @app.put("/items/{item_id}")
-async def update_item(item_id: int, item: Item = Body(..., embed=True)):
+async def update_item(item_id: int, item: Annotated[Item, Body(..., embed=True)]):  # ...表示default value不知道是什么，但是是必填项
     results = {"item_id": item_id, "item": item}
     return results
