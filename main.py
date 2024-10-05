@@ -202,7 +202,13 @@ class Item(BaseModel):
 #     results = {"item_id": item_id, "item": item}
 #     return results
 
+# @app.put("/items/{item_id}")
+# async def update_item(item_id: int, item: Annotated[Item, Body(..., embed=True)]):  # ...表示default value不知道是什么，占位符
+#     results = {"item_id": item_id, "item": item}
+#     return results
+
+
 @app.put("/items/{item_id}")
-async def update_item(item_id: int, item: Annotated[Item, Body(..., embed=True)]):  # ...表示default value不知道是什么，但是是必填项
+async def update_item(item_id: int, item: Annotated[Item | None, Body(..., embed=True)] = None):  # request body表示非required
     results = {"item_id": item_id, "item": item}
     return results
