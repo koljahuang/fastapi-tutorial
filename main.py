@@ -1,6 +1,7 @@
 from enum import Enum
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Query, Body
+from typing import Annotated
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -103,7 +104,14 @@ class Item(BaseModel):
 
 
 @app.post("/items")
-async def create_item(item: Item):
+async def create_item(
+    # q0: str = Query(..., description="Query string"),  # 3.10前的老写法， requires
+    q1: str = Query("aaa", description="Query string"),  # 3.10前的老写法， 非requires，带默认值
+    # q2: str = Query(None, description="Query string"),  # 3.10前的老写法， 非requires
+    # q3: Annotated[str | None, Query(description="Query string with default value")] = 'aa', # 3.10后的新写法， 非requires， 带默认值
+    # q4: Annotated[str, Query(description="Query string with default value")] = 'aa', # 3.10后的新写法， requires， 带默认值
+    item: Item = Body(...)
+):
     item_dict = item.dict()
     if item.tax:
         price_with_tax = item.price + item.tax
