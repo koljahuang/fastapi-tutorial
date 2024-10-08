@@ -682,6 +682,7 @@ class Tags(Enum):
     status_code=status.HTTP_201_CREATED,
     tags=[Tags.items],
     summary="Create an Item-type item",
+    # 这不太需要，文档字符串会呗识别，而且还是.md格式
     # description="Create an item with all the information: "
     # "name; description; price; tax; and a set of "
     # "unique tags",
