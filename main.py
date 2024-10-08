@@ -630,7 +630,7 @@ async def read_unicorns(name: str):
 # async def validation_exception_handler(request: Request, exc: RequestValidationError):
 #     return JSONResponse(
 #         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-#         content=jsonable_encoder({"detail": exc.errors(), "blahblah": exc.body}),
+#         content=jsonable_encoder({"detail": exc.errors(), "blahblah": exc.body}), # 网页展示错误信息包含请求体
 #     )
 #
 #
@@ -644,13 +644,13 @@ async def read_unicorns(name: str):
 #     return item
 
 
-@app.exception_handler(StarletteHTTPException)
+@app.exception_handler(StarletteHTTPException)   # 遇到HTTPException时采用这个handler
 async def custom_http_exception_handler(request, exc):
     print(f"OMG! An HTTP error!: {repr(exc)}")
     return await http_exception_handler(request, exc)
 
 
-@app.exception_handler(RequestValidationError)
+@app.exception_handler(RequestValidationError)    # 参数验证如果不通过会执行这个handler
 async def validation_exception_handler(request, exc):
     print(f"OMG! The client sent invalid data!: {exc}")
     return await request_validation_exception_handler(request, exc)
